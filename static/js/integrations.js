@@ -2,12 +2,12 @@ const Jira = {
     edit: data => {
         console.log('editIntegration', data)
         const {description, is_default, id, settings} = data
-        emailVm.load({...settings, description, is_default, id})
-        emailVm.modal.modal('show')
+        jiraVm.load({...settings, description, is_default, id})
+        jiraVm.modal.modal('show')
     },
     delete: id => {
-        emailVm.load({id})
-        emailVm.delete()
+        jiraVm.load({id})
+        jiraVm.delete()
     },
     initialState: () => ({
         url: '',

@@ -4,9 +4,9 @@
         <div class="card-header">
             <div class="d-flex">
                 <h9 class="flex-grow-1" style="line-height: 24px">Jira</h9>
-                {#                <button type="button" class="btn btn-24 btn-action" data-toggle="collapse"#}
-                {#                        data-target="#settings_{{ name }}" aria-expanded="false"><i class="fas fa-cog"></i>#}
-                {#                </button>#}
+                <button type="button" class="btn btn-24 btn-action" data-toggle="collapse"
+                        data-target="#settings_{{ name }}" aria-expanded="false"><i class="fas fa-cog"></i>
+                </button>
                 <label class="custom-toggle">
                     <input type="checkbox" data-target="#selector_{{ name }}" aria-expanded="false"
                            data-toggle="collapse"
@@ -28,46 +28,135 @@
                         </option>
                     {% endfor %}
                 </select>
-{#                <div class="mt-3">#}
-{#                    <h9>Recipients</h9>#}
-{#                    <div class="input-group">#}
-{#                        <input type="email" class="form-control" placeholder="Recipients' emails comma-separated"#}
-{#                               v-model="email"#}
-{#                               :class="{ 'is-invalid': hasErrors }"#}
-{#                        >#}
-{#                        <div class="input-group-append">#}
-{#                            <button class="btn btn-secondary btn-37" type="button"#}
-{#                                    style="max-width: unset"#}
-{#                                    @click="handleAdd"#}
-{#                                    :disabled="email === ''"#}
-{#                                    :class="{ 'btn-danger': hasErrors }"#}
-{#                            >#}
-{#                                Add#}
-{#                            </button>#}
-{#                        </div>#}
-{##}
-{#                    </div>#}
-{#                    <div class="invalid-feedback"#}
-{#                         style="display: block"#}
-{#                         v-if="hasErrors"#}
-{#                    >#}
-{#                        <div v-for="error in errors">#}
-{#                            [[ error ]]#}
-{#                        </div>#}
-{#                        <div v-for="warning in warnings" class="text-warning">#}
-{#                            [[ warning ]]#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <ul class="list-group mt-1 list-group-flush">#}
-{#                        <recipient#}
-{#                                v-for="(item, index) in recipients"#}
-{#                                :key="index"#}
-{#                                :index="index"#}
-{#                                :email="item"#}
-{#                                @remove="removeIndex"#}
-{#                        ></recipient>#}
-{#                    </ul>#}
-{#                </div>#}
+            </div>
+        </div>
+        <div class="row">
+            <div class="collapse col-12 mb-3 p-0" id="settings_{{ name }}">
+                <div class="row">
+                    <h7>Advanced Settings</h7>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <h9>Jira fields</h9>
+                        <p>
+                            <h13>For all</h13>
+                        </p>
+                    </div>
+                    <button class="btn btn-primary btn-37"
+                            @click.prevent="add_jira_field"
+                    ><i class="fa fa-plus"></i></button>
+                </div>
+
+                <div class="row">
+                    <jira-field
+                            v-for="(item, index) in fields"
+                            v-model:field_key="item.key"
+                            v-model:field_value="item.value"
+                            :index="index"
+                            @remove="removeJiraField"
+                    ></jira-field>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12 p-0">
+                        <h9>Change priority mapping</h9>
+                        <p>
+                            <h13>Description</h13>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <jira-priority-mapping
+                                v-for="k in Object.keys(priority_mapping)"
+                                :field_key="k"
+                                v-model:field_value="priority_mapping[k]"
+                        ></jira-priority-mapping>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12 p-0">
+                        <h9>Limits</h9>
+                        <p>
+                            <h13>Description</h13>
+                        </p>
+                    </div>
+                    <div class="row col-12 p-0">
+                        <div class="col">
+                            <label>
+                                <h9>Max description size</h9>
+                                <input type="text" placeholder="Value"
+                                       class="form-control form-control-alternative"
+                                       v-model="limits.max_description_size"
+                                />
+                            </label>
+
+                        </div>
+                        <div class="col">
+                            <label>
+                                <h9>Max comment size</h9>
+                                <input type="text" placeholder="Value"
+                                       class="form-control form-control-alternative"
+                                       v-model="limits.max_comment_size"
+                                />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <h9>Dynamic fields</h9>
+                        <p>
+                            <h13>Description</h13>
+                        </p>
+                    </div>
+                    <button class="btn btn-primary btn-37"
+                            @click.prevent="add_dynamic_field"
+                    ><i class="fa fa-plus"></i></button>
+                </div>
+                <div class="row">
+                    <jira-dynamic-field
+                            v-for="(item, index) in dynamic_fields"
+                            v-model:field_condition="item.condition"
+                            v-model:field_key="item.key"
+                            v-model:field_value="item.value"
+                            :index="index"
+                            @remove="removeDynamicField"
+                    ></jira-dynamic-field>
+                </div>
+
+                <div class="mt-3">
+
+                    <div class="form-check">
+                        <label>
+                            <input type="checkbox" class="form-check-input"
+                                   v-model="separate_epic_linkage"
+                            >
+                            <h9>Separate epic linkage</h9>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label>
+                            <input type="checkbox" class="form-check-input"
+                                   v-model="use_another_jira"
+                            >
+                            <h9>Use another jira</h9>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <label>
+                            <input type="checkbox" class="form-check-input"
+                                   v-model="reopen_if_closed"
+                            >
+                            <h9>Reopen if closed</h9>
+                        </label>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

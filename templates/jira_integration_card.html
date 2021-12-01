@@ -1,0 +1,32 @@
+<div class="card card-row-1 mr-3 ml-3 integration_card p-2 flex-row">
+    <div class="col-3 align-self-center">
+        <i class="fab fa-jira integration_icon"></i>
+    </div>
+    <div class="col-7 d-flex flex-column justify-content-center">
+        <div class="row text-uppercase">
+{#            <h13>id: {{ config['id'] }} {% if config['is_default'] %} default {% endif %}</h13>#}
+            <h13>{% if config['is_default'] %}default{% endif %}</h13>
+        </div>
+        <div class="row text-uppercase font-weight-bold">
+            Jira
+        </div>
+        <div class="row">
+            <h13 class="integration_description">{{ config['description'] }}</h13>
+        </div>
+    </div>
+    <div class="col">
+        <div class="dropdown dropleft">
+            <button type="button" class="btn btn-action btn-32" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#" onclick="Jira.edit({{ config.json() }})"><i
+                        class="fas fa-cog fa-secondary fa-xs"></i> Edit</a>
+                <a class="dropdown-item" href="#" onclick="Jira.delete({{ config['id'] }})"><i
+                        class="fas fa-trash-alt fa-secondary fa-xs"></i> Delete</a>
+            </div>
+        </div>
+    </div>
+
+</div>

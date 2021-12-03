@@ -7,11 +7,11 @@ window['reporters_reporter_jira'] = {
     },
     set_data: data => {
         console.log('settings data for reporter_jira', data)
-        const {id} = data
+        const {id, ...rest} = data
         $('#integration_checkbox_reporter_jira').prop('checked', true)
         $('#selector_reporter_jira .selectpicker').val(id).selectpicker('refresh')
         $('#selector_reporter_jira').collapse('show')
-        // jiraVm.$data = {...jiraInitialState(), ...}
+        jiraVm.setData(rest)
     },
     clear_data: () => {
         const selector = $('#selector_reporter_jira .selectpicker')
@@ -20,6 +20,7 @@ window['reporters_reporter_jira'] = {
         )
         $('#integration_checkbox_reporter_jira').prop('checked', false)
         $('#selector_reporter_jira').collapse('hide')
+        $('#settings_reporter_jira').collapse('hide')
         jiraVm.clear()
     }
 }
@@ -80,8 +81,10 @@ const jiraApp = Vue.createApp({
         },
         add_dynamic_field() {
             this.dynamic_fields.push({condition:'', key: '', value: ''})
+        },
+        setData(data) {
+            Object.assign(this.$data, {...jiraInitialState(), ...data})
         }
-
     },
 })
 

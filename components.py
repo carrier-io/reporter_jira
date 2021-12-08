@@ -3,14 +3,14 @@ from flask import render_template
 
 def render_integration_create_modal(context, slot, payload):
     return render_template(
-        'jira_integration.html',
+        'reporter_jira:jira_integration.html',
         config=payload
     )
 
 
 def render_integration_card(context, slot, payload):
     return render_template(
-        'jira_integration_card.html',
+        'reporter_jira:jira_integration_card.html',
         config=payload
     )
 
@@ -22,6 +22,6 @@ def render_reporter_toggle(context, slot, payload):
     )
     payload['project_integrations'] = integrations
     return render_template(
-        'jira_reporter_toggle.html',
+        'reporter_jira:jira_reporter_toggle.html',
         config=payload
     )

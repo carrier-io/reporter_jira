@@ -1,15 +1,14 @@
 {% set name = "reporter_jira" %}
 
-<button type="button"
-        class="btn-action btn-lg btn-secondary card card-row-1 mr-3 ml-3 flex-row align-items-center p-2"
+<div class="btn btn-action btn-lg d-flex align-items-center integration_add"
         data-toggle="modal"
         data-target="#{{ name }}_integration"
         id="create_integration_{{ name }}"
 >
-    <div class="col-2"><i class="fa fa-plus"></i></div>
-    <div class="col-3"><i class="fab fa-jira fa-2x"></i></div>
+    <div style="font-size: 20px"><i class="fa fa-plus"></i></div>
+    <div class="col-2"><img src="{{ url_for('%s.static' | format(name), filename='logo.svg') }}"></img></div>
     <div class="col">Jira</div>
-</button>
+</div>
 
 <div class="modal modal-small fixed-left fade shadow-sm" tabindex="-1" role="dialog" id="{{ name }}_integration">
     <div class="modal-dialog modal-dialog-aside" role="document">

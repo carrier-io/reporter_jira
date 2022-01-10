@@ -23,7 +23,7 @@ from pylon.core.tools import module  # pylint: disable=E0611,E0401
 
 from .components import render_integration_create_modal, render_integration_card, render_test_toggle
 from .models.integration_pd import IntegrationModel
-from .rpc_worker import make_dusty_config
+from .rpc_worker import make_dusty_config, security_test_create_integration_validate
 
 
 class Module(module.ModuleModel):
@@ -61,6 +61,11 @@ class Module(module.ModuleModel):
         self.context.rpc_manager.register_function(
             partial(make_dusty_config, self.context),
             name=f'dusty_config_{self.descriptor.name}',
+        )
+
+        self.context.rpc_manager.register_function(
+            security_test_create_integration_validate,
+            name=f'security_test_create_integration_validate_{self.descriptor.name}',
         )
 
     def deinit(self):  # pylint: disable=R0201

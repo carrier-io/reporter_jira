@@ -1,5 +1,7 @@
 from pylon.core.tools import log  # pylint: disable=E0611,E0401
 
+from .models.integration_pd import SecurityTestModel
+
 
 def make_dusty_config(context, test_params, scanner_params):
     """ Prepare dusty config for this scanner """
@@ -14,3 +16,8 @@ def make_dusty_config(context, test_params, scanner_params):
     log.info("Result: %s", result)
     #
     return result
+
+
+def security_test_create_integration_validate(data: dict, **kwargs) -> dict:
+    pd_object = SecurityTestModel(**data)
+    return pd_object.dict(**kwargs)

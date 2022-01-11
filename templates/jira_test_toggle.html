@@ -87,20 +87,24 @@
                         <div class="col">
                             <label>
                                 <h9>Max description size</h9>
-                                <input type="text" placeholder="Value"
+                                <input type="number" placeholder="Value"
                                        class="form-control form-control-alternative"
                                        v-model="limits.max_description_size"
+                                       :class="{ 'is-invalid': errors.max_description_size }"
                                 />
+                                <div class="invalid-feedback">[[ errors.max_description_size ]]</div>
                             </label>
 
                         </div>
                         <div class="col">
                             <label>
                                 <h9>Max comment size</h9>
-                                <input type="text" placeholder="Value"
+                                <input type="number" placeholder="Value"
                                        class="form-control form-control-alternative"
                                        v-model="limits.max_comment_size"
+                                       :class="{ 'is-invalid': errors.max_comment_size }"
                                 />
+                                <div class="invalid-feedback">[[ errors.max_comment_size ]]</div>
                             </label>
                         </div>
                     </div>

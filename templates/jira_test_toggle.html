@@ -1,22 +1,24 @@
-{% set name = 'reporter_jira' %}
-<div class="col-6 security_integration_item" data-name="{{ name }}" id="{{ name }}">
+{% set integration_name = 'reporter_jira' %}
+{% set display_name = 'Jira' %}
+
+<div class="col-6 security_integration_item" data-name="{{ integration_name }}" id="{{ integration_name }}">
     <div class="card card-row-1">
         <div class="card-header">
             <div class="d-flex">
-                <h9 class="flex-grow-1" style="line-height: 24px">Jira</h9>
+                <h9 class="flex-grow-1" style="line-height: 24px">{{ display_name }}</h9>
                 <button type="button" class="btn btn-24 btn-action" data-toggle="collapse"
-                        data-target="#settings_{{ name }}" aria-expanded="false"><i class="fas fa-cog"></i>
+                        data-target="#settings_{{ integration_name }}" aria-expanded="false"><i class="fas fa-cog"></i>
                 </button>
                 <label class="custom-toggle">
-                    <input type="checkbox" data-target="#selector_{{ name }}" aria-expanded="false"
+                    <input type="checkbox" data-target="#selector_{{ integration_name }}" aria-expanded="false"
                            data-toggle="collapse"
-                           class="integration_checkbox" id="integration_checkbox_{{ name }}">
+                           class="integration_checkbox" id="integration_checkbox_{{ integration_name }}">
                     <span class="custom-toggle-slider rounded-circle"></span>
                 </label>
             </div>
         </div>
         <div class="row">
-            <div class="collapse col-12 mb-3 pl-0" id="selector_{{ name }}">
+            <div class="collapse col-12 mb-3 pl-0" id="selector_{{ integration_name }}">
                 <select class="selectpicker" data-style="btn-secondary">
                     {% for i in config['project_integrations'] %}
                         <option
@@ -31,7 +33,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="collapse col-12 mb-3 p-0" id="settings_{{ name }}">
+            <div class="collapse col-12 mb-3 p-0" id="settings_{{ integration_name }}">
                 <div class="row">
                     <h7>Advanced Settings</h7>
                 </div>
@@ -162,5 +164,4 @@
     </div>
 </div>
 
-
-<script src="{{ url_for('reporter_jira.static', filename='js/reporter_toggle.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('%s.static' | format(integration_name), filename='js/test_toggle.js') }}"></script>

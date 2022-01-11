@@ -11,7 +11,7 @@ window['reporters_reporter_jira'] = {
         $('#integration_checkbox_reporter_jira').prop('checked', true)
         $('#selector_reporter_jira .selectpicker').val(id).selectpicker('refresh')
         $('#selector_reporter_jira').collapse('show')
-        jiraVm.setData(rest)
+        jiraVm.load(rest)
     },
     clear_data: () => {
         const selector = $('#selector_reporter_jira .selectpicker')
@@ -82,7 +82,7 @@ const jiraApp = Vue.createApp({
         add_dynamic_field() {
             this.dynamic_fields.push({condition:'', key: '', value: ''})
         },
-        setData(data) {
+        load(data) {
             Object.assign(this.$data, {...jiraInitialState(), ...data})
         }
     },

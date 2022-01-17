@@ -22,7 +22,9 @@ window['reporters_reporter_jira'] = {
         $('#selector_reporter_jira').collapse('hide')
         $('#settings_reporter_jira').collapse('hide')
         jiraVm.clear()
-    }
+    },
+    set_error: data => jiraVm.handleError(data),
+    clear_errors: () => jiraVm.errors = jiraInitialState().errors
 }
 
 const jiraInitialState = () => ({
@@ -43,8 +45,7 @@ const jiraInitialState = () => ({
     use_another_jira: false,
     reopen_if_closed: false,
 
-    errors: [],
-    warnings: [],
+    errors: {},
 })
 
 const jiraApp = Vue.createApp({
@@ -53,13 +54,9 @@ const jiraApp = Vue.createApp({
         return jiraInitialState()
     },
     computed: {
-        hasErrors() {
-            return this.errors.length + this.warnings.length > 0
-        },
         body_data() {
             const data = { ...this.$data }
             delete data.errors
-            delete data.warnings
             data.fields = data.fields.filter(item => item.key !== '')
             data.dynamic_fields = data.dynamic_fields.filter(item => item.condition !== '')
             console.log('collected data:', data)
@@ -84,7 +81,17 @@ const jiraApp = Vue.createApp({
         },
         load(data) {
             Object.assign(this.$data, {...jiraInitialState(), ...data})
-        }
+        },
+        handleError(data) {
+
+            this.errors[data.loc[data.loc.length - 1]] = data.msg
+            // console.log(data)
+            // data.forEach(item => {
+            //     console.log('item error', item)
+            //     this.error[item.loc[item.loc.length]] = item.msg
+            // })
+
+        },
     },
 })
 

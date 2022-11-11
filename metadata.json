@@ -1,6 +1,6 @@
 {
   "name": "Carrier Reporter Jira Plugin",
-  "version": "0.1",
+  "version": "0.2",
   "module": "plugins.reporter_jira",
   "extract": false,
   "depends_on": ["integrations"],

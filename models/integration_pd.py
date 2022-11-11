@@ -1,12 +1,14 @@
-from typing import List
-
+from typing import List, Union
 from pydantic import BaseModel, AnyUrl, validator
+
+from ...integrations.models.pd.integration import SecretField
 
 
 class IntegrationModel(BaseModel):
     url: AnyUrl
+    jira_version: str
     login: str
-    passwd: str
+    passwd: Union[SecretField, str]
     project: str
     issue_type: str
 
@@ -21,17 +23,17 @@ class IntegrationModel(BaseModel):
 
 
 class TestModelLimits(BaseModel):
-    max_comment_size: int
-    max_description_size: int
+    max_comment_size: int = 32767
+    max_description_size: int = 61908
 
     @validator('max_comment_size')
     def tmp1(cls, value):
-        assert value < 100, 'Value should be < 100'
+        # assert value < 100, 'Value should be < 100'
         return value
 
     @validator('max_description_size')
     def tmp2(cls, value):
-        assert value > 100, 'Value should be > 100'
+        # assert value > 100, 'Value should be > 100'
         return value
 
 
@@ -58,7 +60,19 @@ class SecurityTestModel(BaseModel):
     dynamic_fields: List[TestModelDynamicField]
     limits: TestModelLimits
     priority_mapping: TestModelPriorityMappings
+    watchers: str
     reopen_if_closed: bool = False
     separate_epic_linkage: bool = False
+    separate_epic_linkage_key: str
     use_another_jira: bool = False
+    another_jira_url: AnyUrl
+    another_jira_login: str
+    another_jira_password: str
 
+
+class PerformanceBackendTestModel(SecurityTestModel):
+    ...
+
+
+class PerformanceUiTestModel(PerformanceBackendTestModel):
+    ...

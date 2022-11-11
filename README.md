@@ -1,1 +1,1 @@
-# reporter_jira
+# jira-integration

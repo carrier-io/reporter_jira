@@ -1,0 +1,24 @@
+{% set instance_name_prefix = instance_name_prefix | default('') %}
+{% set integration_name = 'reporter_jira' %}
+{% set display_name = 'Jira' %}
+
+<Test-Integration-Item
+    integration_name="{{ '%s%s' | format(instance_name_prefix, integration_name) }}"
+    display_name="{{ display_name }}"
+    :project_integrations="{{ project_integrations | list_pd_to_json }}"
+>
+    <template #selector="{selected_integration, is_selected, on_set_data, on_clear_data}">
+        <reporter-jira
+            @register="register"
+            instance_name="{{ '%s%s' | format(instance_name_prefix, integration_name) }}"
+            section="reporters"
+
+            @set_data="on_set_data"
+            @clear_data="on_clear_data"
+
+            :selected_integration="selected_integration"
+            :is_selected="is_selected"
+        ></reporter-jira>
+    </template>
+</Test-Integration-Item>
+

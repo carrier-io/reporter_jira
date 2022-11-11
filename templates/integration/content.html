@@ -1,0 +1,19 @@
+{% set integration_name = 'reporter_jira' %}
+{% set display_name = 'Jira' %}
+{#{% set show_test_connection = True %}#}
+
+
+<add-integration-button
+    integration_name="{{ integration_name }}"
+    display_name="{{ display_name }}"
+    logo="{{ '<img src="%s"></img>' | format(url_for('%s.static' | format(integration_name), filename='logo.svg')) }}"
+></add-integration-button>
+
+
+<jira-integration
+        instance_name="{{ integration_name }}"
+        @register="register"
+
+        display_name="{{ display_name }}"
+></jira-integration>
+

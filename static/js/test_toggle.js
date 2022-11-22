@@ -122,9 +122,6 @@ const JiraIntegration = {
             Object.assign(this.$data, this.initialState())
             this.$emit('clear_data')
         },
-        clear() {
-            Object.assign(this.$data, this.initialState())
-        },
         removeJiraField(index) {
             this.fields.splice(index, 1)
         },
@@ -140,8 +137,7 @@ const JiraIntegration = {
         load(data) {
             Object.assign(this.$data, {...this.initialState(), ...data})
         },
-
-        handleError(data) {
+        set_error(data) {
             this.errors[data.loc[data.loc.length - 1]] = data.msg
             // console.log(data)
             // data.forEach(item => {
@@ -149,6 +145,9 @@ const JiraIntegration = {
             //     this.error[item.loc[item.loc.length]] = item.msg
             // })
 
+        },
+        clear_errors() {
+            this.errors = {}
         },
         initialState: () => ({
             fields: [],

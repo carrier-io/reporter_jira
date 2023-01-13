@@ -1,6 +1,7 @@
 const JiraIntegration = {
     delimiters: ['[[', ']]'],
-    props: ['instance_name', 'display_name',],
+    props: ['instance_name', 'display_name', 'logo_src', 'section_name'],
+    emits: ['update'],
     template: `
 <div
         :id="modal_id"
@@ -106,8 +107,8 @@ const JiraIntegration = {
             return getSelectedProjectId()
         },
         body_data() {
-            const {url, jira_version, login, passwd, project, issue_type, description, is_default, project_id} = this
-            return {url, jira_version, login, passwd, project, issue_type, description, is_default, project_id}
+            const {url, jira_version, login, passwd, project, issue_type, description, is_default, project_id, status} = this
+            return {url, jira_version, login, passwd, project, issue_type, description, is_default, project_id, status}
         },
         test_connection_class() {
             if (200 <= this.test_connection_status && this.test_connection_status < 300) {
@@ -161,7 +162,7 @@ const JiraIntegration = {
                 this.is_fetching = false
                 if (response.ok) {
                     this.modal.modal('hide')
-                    location.reload()
+                    this.$emit('update', {...this.$data, section_name: this.section_name})
                 } else {
                     this.handleError(response)
                 }
@@ -190,7 +191,7 @@ const JiraIntegration = {
                 this.is_fetching = false
                 if (response.ok) {
                     this.modal.modal('hide')
-                    location.reload()
+                    this.$emit('update', {...this.$data, section_name: this.section_name})
                     // alertMain.add('Jira reporter updated!', 'success-overlay')
                     // setTimeout(() => location.reload(), 1500)
                 } else {
@@ -206,7 +207,7 @@ const JiraIntegration = {
                 this.is_fetching = false
 
                 if (response.ok) {
-                    location.reload()
+                    this.$emit('update', {...this.$data, section_name: this.section_name})
                     // alertMain.add('Jira integration deleted')
                     // setTimeout(() => location.reload(), 1000)
                 } else {
@@ -244,6 +245,7 @@ const JiraIntegration = {
             pluginName: 'reporter_jira',
 
             api_base: '/api/v1/integrations/',
+            status: integration_status.success,
         })
     }
 }

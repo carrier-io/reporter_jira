@@ -21,16 +21,16 @@ const JiraIntegration = {
     >
         <template #body>
             <div class="form-group">
-                <h9>URL</h9>
+                <p class="font-h5 font-semibold mb-1">URL</p>
                 <input type="text" class="form-control form-control-alternative"
                     placeholder="URL"
                     v-model="url"
                     :class="{ 'is-invalid': error.url }">
                 <div class="invalid-feedback">[[ error.url ]]</div>
 
-                <h9>Jira version</h9>
+                <p class="font-h5 font-semibold mb-1 mt-3">Jira version</p>
                 <div class="select-validation">
-                    <select class="selectpicker bootstrap-select__b mb-3" 
+                    <select class="selectpicker bootstrap-select__b" 
                         v-model="jira_version"
                         data-style="btn" 
                         name="jira_version" 
@@ -41,9 +41,9 @@ const JiraIntegration = {
                     </select>
                 </div>
 
-                <div class="form-group form-row">
-                    <div class="col-6">
-                        <h9>Login</h9>
+                <div class="form-group form-row mt-3">
+                    <div class="col-6 pl-0 pr-3">
+                        <p class="font-h5 font-semibold mb-1">Login</p>
                         <input type="text" class="form-control form-control-alternative"
                             placeholder="Login"
                             v-model="login"
@@ -52,7 +52,7 @@ const JiraIntegration = {
                         <div class="invalid-feedback">[[ error.login ]]</div>
                     </div>
                     <div class="col-6">
-                        <h9>Password</h9>
+                        <p class="font-h5 font-semibold mb-1">Password</p>
                         <SecretFieldInput
                             v-model="passwd"
                             placeholder="SMTP password"
@@ -62,14 +62,14 @@ const JiraIntegration = {
                     </div>
                 </div>
 
-                <h9>Project</h9>
+                <p class="font-h5 font-semibold mb-1 mt-3">Project</p>
                 <input type="text" class="form-control form-control-alternative"
                     placeholder="Project"
                     v-model="project"
                     :class="{ 'is-invalid': error.project }">
                 <div class="invalid-feedback">[[ error.project ]]</div>
 
-                <h9>Issue Type</h9>
+                <p class="font-h5 font-semibold mb-1 mt-3">Issue Type</p>
                 <input type="text" class="form-control form-control-alternative"
                     placeholder="Issue Type"
                     v-model="issue_type"

@@ -3,15 +3,15 @@ const JiraField = {
     emits: ['remove', 'update:field_key', 'update:field_value'],
     delimiters: ['[[', ']]'],
     template: `
-        <div class="d-flex">
-            <div class="col">
+        <div class="d-flex mt-3">
+            <div class="w-100 mr-3">
                 <input type="text" placeholder="Key" 
                     class="form-control form-control-alternative"
                     @input="$emit('update:field_key', $event.target.value)"
                     :value="field_key"
                     />
             </div>
-            <div class="col">
+            <div class="w-100 mr-3">
                 <input type="text" placeholder="Value" 
                     class="form-control form-control-alternative"
                     @input="$emit('update:field_value', $event.target.value)"
@@ -19,10 +19,9 @@ const JiraField = {
                 />
             </div>
             <div class="align-self-center">
-                <button class="btn btn-primary btn-37" 
-                    @click.prevent="$emit('remove', index)"
-                >
-                    <i class="fa fa-minus"></i>
+                <button class="btn btn-default btn-xs btn-icon__xs"
+                    @click.prevent="$emit('remove', index)">
+                    <i class="icon__18x18 icon-remove-element"></i>
                 </button>
             </div>
         </div>
@@ -34,15 +33,13 @@ const JiraPriorityMapping = {
     emits: ['update:field_key', 'update:field_value'],
     delimiters: ['[[', ']]'],
     template: `
-        <div class="col-6 p-0">
-            <label class="mb-0">
-                <h9 class="text-capitalize">[[ field_key ]]</h9>
-                <input type="text" class="form-control form-control-alternative mt-1"
-                    :placeholder="field_value"
-                    :value="field_value"
-                    @input="$emit('update:field_value', $event.target.value)"
-                >
-            </label>
+        <div>
+            <p class="font-h6 font-semibold mb-1">[[ field_key ]]</p>
+            <input type="text" class="form-control form-control-alternative mt-1"
+                :placeholder="field_value"
+                :value="field_value"
+                @input="$emit('update:field_value', $event.target.value)"
+            >
         </div>
     `
 }
@@ -52,22 +49,22 @@ const JiraDynamicField = {
     emits: ['remove', 'update:field_condition', 'update:field_key', 'update:field_value'],
     delimiters: ['[[', ']]'],
     template: `
-        <div class="d-flex">
-            <div class="col">
+        <div class="d-flex mb-3">
+            <div class="w-100 mr-3">
                 <input type="text" placeholder="Condition" 
                     class="form-control form-control-alternative"
                     @input="$emit('update:field_condition', $event.target.value)"
                     :value="field_condition"
                     />
             </div>
-            <div class="col">
+            <div class="w-100 mr-3">
                 <input type="text" placeholder="Key" 
                     class="form-control form-control-alternative"
                     @input="$emit('update:field_key', $event.target.value)"
                     :value="field_key"
                     />
             </div>
-            <div class="col">
+            <div class="w-100 mr-3">
                 <input type="text" placeholder="Value" 
                     class="form-control form-control-alternative"
                     @input="$emit('update:field_value', $event.target.value)"
@@ -75,10 +72,9 @@ const JiraDynamicField = {
                 />
             </div>
             <div class="align-self-center">
-                <button class="btn btn-primary btn-37" 
-                    @click.prevent="$emit('remove', index)"
-                >
-                    <i class="fa fa-minus"></i>
+                <button class="btn btn-default btn-xs btn-icon__xs"
+                    @click.prevent="$emit('remove', index)">
+                    <i class="icon__18x18 icon-remove-element"></i>
                 </button>
             </div>
         </div>
@@ -177,19 +173,18 @@ const JiraIntegration = {
         })
     },
     template: `
-        <div class="row mt-2">
+        <div class="row mt-3">
             <div class="col">
-                <h9>Jira fields</h9>
-                <p>
-                    <h13>For all</h13>
-                </p>
+                <p class="font-h5 font-semibold">Jira fields</p>
+                <p class="font-h6 font-weight-400">For all</p>
             </div>
-            <button class="btn btn-primary btn-37"
-                    @click.prevent="add_jira_field"
-            ><i class="fa fa-plus"></i></button>
+            <button class="btn btn-default btn-xs btn-icon__xs align-self-center"
+                @click.prevent="add_jira_field">
+                <i class="icon__18x18 icon-create-element"></i>
+            </button>
         </div>
 
-        <div class="row">
+        <div>
             <JiraField
                     v-for="(item, index) in fields"
                     v-model:field_key="item.key"
@@ -199,7 +194,7 @@ const JiraIntegration = {
             ></JiraField>
         </div>
 
-        <div class="section mt-3">
+        <div class="mt-3">
             <div class="row" 
                     data-toggle="collapse" 
                     data-target="#advancedBackend" 
@@ -208,11 +203,12 @@ const JiraIntegration = {
                     aria-controls="advancedBackend"
                     @click="is_adv_settins_open = !is_adv_settins_open"
                 >
-                <div class="col">
-                    <h12>ADVANCED SETTINGS <i class="fa" 
-                    :class="is_adv_settins_open ? 'fa-angle-down' : 'fa-angle-right'"></i>
-                    
-                    </h12>
+                <div>
+                    <p class="font-h6 font-semibold text-gray-600">ADVANCED SETTINGS 
+                        <button class="btn btn-nooutline-secondary p-0 pb-1 ml-1 collapsed">
+                            <i class="icon__16x16 icon-arrow-down__16" :class="is_adv_settins_open ? '' : 'rotate-270'"></i>
+                        </button>
+                    </p>
                 </div>
                 <div class="col">
                     <div class="col-xs text-right">
@@ -222,18 +218,15 @@ const JiraIntegration = {
                     </div>
                 </div>
             </div>
-            <div class="collapse row pt-4" id="advancedBackend"
+            <div class="collapse row" id="advancedBackend"
                 ref="advanced_params"
             >
-            <div class="col-mt-2">
-                <div class="row mt-2">
-                    <div class="col-12 p-0">
-                        <h9>Change priority mapping</h9>
-                        <p>
-                            <h13>Description</h13>
-                        </p>
+            <div class="col mt-2">
+                <div class="mt-4">
+                    <div class="col-12 p-0 mb-2">
+                        <p class="font-h5 font-semibold">Change priority mapping</p>
                     </div>
-                    <div class="row">
+                    <div class="d-grid grid-column-2 gap-3">
                         <JiraPriorityMapping
                                 v-for="k in Object.keys(priority_mapping)"
                                 :field_key="k"
@@ -241,52 +234,42 @@ const JiraIntegration = {
                         ></JiraPriorityMapping>
                     </div>
                 </div>
-                <div class="row mt-2">
-                    <div class="col-12 p-0">
-                        <h9>Limits</h9>
-                        <p>
-                            <h13>Description</h13>
-                        </p>
+                <div class="mt-4">
+                    <div class="col-12 p-0 mb-2">
+                        <p class="font-h5 font-semibold">Limits</p>
                     </div>
-                    <div class="row col-12 p-0">
-                        <div class="col">
-                            <label>
-                                <h9>Max description size</h9>
-                                <input type="number" placeholder="Value"
-                                    class="form-control form-control-alternative"
-                                    v-model="limits.max_description_size"
-                                    :class="{ 'is-invalid': errors.max_description_size }"
-                                />
-                                <div class="invalid-feedback">[[ errors.max_description_size ]]</div>
-                            </label>
-
+                    <div class="d-grid grid-column-2 gap-3">
+                        <div>
+                            <p class="font-h6 font-semibold mb-1">Max description size</p>
+                            <input type="number" placeholder="Value"
+                                class="form-control form-control-alternative"
+                                v-model="limits.max_description_size"
+                                :class="{ 'is-invalid': errors.max_description_size }"
+                            />
+                            <div class="invalid-feedback">[[ errors.max_description_size ]]</div>
                         </div>
-                        <div class="col">
-                            <label>
-                                <h9>Max comment size</h9>
-                                <input type="number" placeholder="Value"
-                                    class="form-control form-control-alternative"
-                                    v-model="limits.max_comment_size"
-                                    :class="{ 'is-invalid': errors.max_comment_size }"
-                                />
-                                <div class="invalid-feedback">[[ errors.max_comment_size ]]</div>
-                            </label>
+                        <div>
+                            <p class="font-h6 font-semibold mb-1">Max comment size</p>
+                            <input type="number" placeholder="Value"
+                                class="form-control form-control-alternative"
+                                v-model="limits.max_comment_size"
+                                :class="{ 'is-invalid': errors.max_comment_size }"
+                            />
+                            <div class="invalid-feedback">[[ errors.max_comment_size ]]</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col">
-                        <h9>Dynamic fields</h9>
-                        <p>
-                            <h13>Description</h13>
-                        </p>
+                <div class="d-flex mt-4">
+                    <div class="col p-0 mb-2">
+                        <p class="font-h5 font-semibold">Dynamic fields</p>
                     </div>
-                    <button class="btn btn-primary btn-37"
-                            @click.prevent="add_dynamic_field"
-                    ><i class="fa fa-plus"></i></button>
+                    <button class="btn btn-default btn-xs btn-icon__xs align-self-center"
+                        @click.prevent="add_dynamic_field">
+                        <i class="icon__18x18 icon-create-element"></i>
+                    </button>
                 </div>
-                <div class="row">
+                <div>
                     <JiraDynamicField
                             v-for="(item, index) in dynamic_fields"
                             v-model:field_condition="item.condition"
@@ -296,70 +279,62 @@ const JiraIntegration = {
                             @remove="removeDynamicField"
                     ></JiraDynamicField>
                 </div>
-
-                <div class="row mt-2">
-                    <div class="col">
-                        <h9>Watchers</h9>
+                <div class="mt-2">
+                    <div class="col p-0 mb-">
+                        <p class="font-h6 font-semibold mb-1">Watchers</p>
+                        <input type="text" class="form-control form-control-alternative"
+                            v-model="watchers"
+                            placeholder="List of watchers"
+                        >
                     </div>
                 </div>
-                <input type="text" class="form-control form-control-alternative"
-                    v-model="watchers"
-                    placeholder="List of watchers"
-                    style="width: 438px;"
-                >
-
-
                 <div class="mt-3">
                     <div class="col">
-                        <label class="mb-0 w-100 d-flex align-items-center custom-checkbox">
+                        <label class="mb-2 w-100 d-flex align-items-center custom-checkbox">
                             <input type="checkbox" class="mr-2"
                                 v-model="separate_epic_linkage"
                             >
-                            <h9>Separate epic linkage</h9>
+                            <p class="font-h5 font-weight-400">Separate epic linkage</p>
                         </label>
                         <div v-show="separate_epic_linkage" class="form-group" id="epic_linkage_key">
-                            <label class="form-control-label" for="epic_filed_key">Epic field key</label>
-                                <input type="text" class="form-control form-control-alternative"
+                            <label class="form-control-label font-h6 font-semibold mb-1" for="epic_filed_key">Epic field key</label>
+                                <input type="text" class="form-control form-control-alternative mt-0"
                                        v-model="separate_epic_linkage_key"
                                        placeholder="Key"
-                                       style="width: 438px;"
                                 >
                         </div>
                     </div>
 
                     <div class="form-check-label">
-                        <label class="mb-0 w-100 d-flex align-items-center custom-checkbox">
+                        <label class="mb-2 w-100 d-flex align-items-center custom-checkbox">
                             <input type="checkbox" class="mr-2"
                                 v-model="use_another_jira"
                             >
-                            <h9>Use another jira</h9>
+                            <p class="font-h5 font-weight-400">Use another jira</p>
                         </label>
                         <div v-show="use_another_jira" class="form-group mt-0 pt-0" id="another_jira_fields">
-                            <label class="form-control-label" for="url_another_jira">URL</label>
-                                <input type="text" class="form-control form-control-alternative"
+                            <label class="form-control-label font-h6 font-semibold mb-1 w-100" for="url_another_jira">URL</label>
+                                <input type="text" class="form-control form-control-alternative mt-0"
                                     v-model="another_jira_url"
                                     placeholder="URL to another Jira"
-                                    style="width: 438px;"
                                     :class="{ 'is-invalid': errors.another_jira_url }"
                                 >
                                 <div class="invalid-feedback">[[ errors.another_jira_url ]]</div>
-                            <div class="row">
-                                <div class="col ml-0 pl-0">
-                                    <label class="form-control-label" for="login_another_jira">Login</label>
-                                    <input type="text" class="form-control form-control-alternative mt-1"
+                            <div class="d-grid grid-column-2 gap-3">
+                                <div>
+                                    <label class="form-control-label font-h6 font-semibold mb-1" for="login_another_jira">Login</label>
+                                    <input type="text" class="form-control form-control-alternative my-0 w-100"
                                         v-model="another_jira_login"
                                         placeholder="Login to another Jira"
-                                        style="width: 193px;"
                                         :class="{ 'is-invalid': errors.another_jira_login }"
                                     >
                                     <div class="invalid-feedback">[[ errors.another_jira_login ]]</div>
                                 </div>
-                                <div class="col ml-0 pl-0">
-                                    <label class="form-control-label" for="password_another_jira">Password (from Secrets)</label>
-                                    <input type="text" class="form-control form-control-alternative mt-1"
+                                <div>
+                                    <label class="form-control-label font-h6 font-semibold mb-1" for="password_another_jira">Password (from Secrets)</label>
+                                    <input type="text" class="form-control form-control-alternative my-0 w-100"
                                         v-model="another_jira_password"
                                         placeholder="Password (secret field)"
-                                        style="width: 199px;"
                                         :class="{ 'is-invalid': errors.another_jira_password }"
                                     >
                                     <div class="invalid-feedback">[[ errors.another_jira_password ]]</div>
@@ -372,7 +347,7 @@ const JiraIntegration = {
                             <input type="checkbox" class="mr-2"
                                 v-model="reopen_if_closed"
                             >
-                            <h9>Reopen if closed</h9>
+                            <p class="font-h5 font-weight-400">Reopen if closed</p>
                         </label>
                     </div>
                 </div>

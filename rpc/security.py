@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from ..models.integration_pd import SecurityTestModel
 from ...integrations.models.pd.integration import SecretField
 
-from tools import rpc_tools, secrets_tools
+from tools import rpc_tools, VaultClient
 
 
 class RPC:
@@ -34,8 +34,8 @@ class RPC:
         if scanner_params['use_another_jira']:
             result['url'] = scanner_params['another_jira_url']
             result['username'] = scanner_params['another_jira_login']
-            result['password'] = secrets_tools.unsecret(value=scanner_params['another_jira_password'], 
-                                                        project_id=test_params['project_id'])
+            vault_client = VaultClient.from_project(test_params['project_id'])
+            result['password'] = vault_client.unsecret(value=scanner_params['another_jira_password'])
             del result['another_jira_url']
             del result['another_jira_login']
             del result['another_jira_password']

@@ -10,15 +10,14 @@ class Slot:
         if payload is None:
             payload = {}
         project_id = self.context.rpc_manager.call.project_get_id()
-        integrations = context.rpc_manager.call.integrations_get_project_integrations_by_name(
+        integrations = context.rpc_manager.call.integrations_get_all_integrations_by_name(
             project_id,
             Slot.integration_name
         )
-        project_integrations = integrations
         with context.app.app_context():
             return self.descriptor.render_template(
                 'test_toggle/content.html',
-                project_integrations=project_integrations,
+                project_integrations=integrations,
                 instance_name_prefix=payload.get('instance_name_prefix', '')
             )
 
@@ -34,15 +33,14 @@ class Slot:
         if payload is None:
             payload = {}
         project_id = self.context.rpc_manager.call.project_get_id()
-        integrations = context.rpc_manager.call.integrations_get_project_integrations_by_name(
+        integrations = context.rpc_manager.call.integrations_get_all_integrations_by_name(
             project_id,
             Slot.integration_name
         )
-        project_integrations = integrations
         with context.app.app_context():
             return self.descriptor.render_template(
                 'test_toggle/content.html',
-                project_integrations=project_integrations,
+                project_integrations=integrations,
                 instance_name_prefix=payload.get('instance_name_prefix', '')
             )
 

@@ -79,7 +79,7 @@ const JiraIntegration = {
         </template>
         <template #footer>
             <test-connection-button
-                    :apiPath="api_base + 'check_settings/' + pluginName"
+                    :apiPath="this.$root.build_api_url('integrations', 'check_settings') + '/' + pluginName"
                     :error="error.check_connection"
                     :body_data="body_data"
                     v-model:is_fetching="is_fetching"
@@ -100,15 +100,36 @@ const JiraIntegration = {
         })
     },
     computed: {
-        apiPath() {
-            return this.api_base + 'integration/'
-        },
         project_id() {
-            return getSelectedProjectId()
+            // return getSelectedProjectId()
+            return this.$root.project_id
         },
         body_data() {
-            const {url, jira_version, login, passwd, project, issue_type, description, is_default, project_id, status} = this
-            return {url, jira_version, login, passwd, project, issue_type, description, is_default, project_id, status}
+            const {
+                url, 
+                jira_version, 
+                login, 
+                passwd, 
+                project, 
+                issue_type, 
+                description, 
+                is_default, 
+                project_id, 
+                status,
+                mode
+            } = this
+            return {
+                url, 
+                jira_version, 
+                login, passwd, 
+                project, 
+                issue_type, 
+                description, 
+                is_default, 
+                project_id, 
+                status,
+                mode
+            }
         },
         test_connection_class() {
             if (200 <= this.test_connection_status && this.test_connection_status < 300) {
@@ -152,9 +173,13 @@ const JiraIntegration = {
             this.load({id})
             this.delete()
         },
+        handleSetDefault(id) {
+            this.load({id})
+            this.set_default()
+        },
         create() {
             this.is_fetching = true
-            fetch(this.apiPath + this.pluginName, {
+            fetch(this.api_url + this.pluginName, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(this.body_data)
@@ -183,7 +208,7 @@ const JiraIntegration = {
         },
         update() {
             this.is_fetching = true
-            fetch(this.apiPath + this.id, {
+            fetch(this.api_url + this.id, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(this.body_data)
@@ -201,7 +226,7 @@ const JiraIntegration = {
         },
         delete() {
             this.is_fetching = true
-            fetch(this.apiPath + this.id, {
+            fetch(this.api_url + this.id, {
                 method: 'DELETE',
             }).then(response => {
                 this.is_fetching = false
@@ -223,6 +248,26 @@ const JiraIntegration = {
                 }
             })
         },
+        async set_default() {
+            console.log('we are here')
+            this.is_fetching = true
+            try {
+                const resp = await fetch(this.api_url + this.id, {
+                    method: 'PATCH',
+                })
+                if (resp.ok) {
+                    this.$emit('update', {...this.$data, section_name: this.section_name})
+                } else {
+                    const error_data = await resp.json()
+                    this.handleError(error_data)
+                }
+            } catch (e) {
+                console.error(e)
+                showNotify('ERROR', 'Error setting as default')
+            } finally {
+                this.is_fetching = false
+            }
+        },
         update_pickers() {
             $(this.$el).find('.selectpicker').selectpicker('redner').selectpicker('refresh')
         },
@@ -243,9 +288,9 @@ const JiraIntegration = {
             template: '',
             fileName: '',
             pluginName: 'reporter_jira',
-
-            api_base: '/api/v1/integrations/',
             status: integration_status.success,
+            api_url: V.build_api_url('integrations', 'integration') + '/',
+            mode: V.mode
         })
     }
 }

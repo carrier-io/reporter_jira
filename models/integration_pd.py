@@ -12,7 +12,7 @@ class IntegrationModel(BaseModel):
     project: str
     issue_type: str
 
-    def check_connection(self) -> bool:
+    def check_connection(self, **kwargs) -> bool:
         import requests
         print('checking', self.url, requests.get(self.url))
         try:

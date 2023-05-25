@@ -1,5 +1,5 @@
 from typing import List, Union, Optional
-from pydantic import BaseModel, AnyUrl, validator
+from pydantic import BaseModel, AnyUrl, validator, constr
 from urllib.parse import urlparse
 
 from ...integrations.models.pd.integration import SecretField
@@ -8,9 +8,9 @@ from ...integrations.models.pd.integration import SecretField
 class IntegrationModel(BaseModel):
     url: AnyUrl
     jira_version: str
-    login: str
+    login: constr(min_length=1)
     passwd: Union[SecretField, str]
-    project: str
+    project: constr(min_length=1)
     issue_type: str
 
     def check_connection(self, **kwargs) -> bool:

@@ -10,7 +10,7 @@ const JiraIntegration = {
         @drop.prevent="modal_style = {'height': '100px', 'border': ''}"
 >
     <ModalDialog
-            v-model:description="description"
+            v-model:name="config.name"
             v-model:is_default="is_default"
             @update="update"
             @create="create"
@@ -112,7 +112,7 @@ const JiraIntegration = {
                 passwd, 
                 project, 
                 issue_type, 
-                description, 
+                config, 
                 is_default, 
                 project_id, 
                 status,
@@ -124,7 +124,7 @@ const JiraIntegration = {
                 login, passwd, 
                 project, 
                 issue_type, 
-                description, 
+                config, 
                 is_default, 
                 project_id, 
                 status,
@@ -165,17 +165,17 @@ const JiraIntegration = {
             Object.assign(this.$data, stateData)
         },
         handleEdit(data) {
-            const {description, is_default, id, settings} = data
-            this.load({...settings, description, is_default, id})
+            const {config, is_default, id, settings} = data
+            this.load({...settings, config, is_default, id})
             this.modal.modal('show')
         },
         handleDelete(id) {
             this.load({id})
             this.delete()
         },
-        handleSetDefault(id) {
+        handleSetDefault(id, local=true) {
             this.load({id})
-            this.set_default()
+            this.set_default(local)
         },
         create() {
             this.is_fetching = true
@@ -226,7 +226,7 @@ const JiraIntegration = {
         },
         delete() {
             this.is_fetching = true
-            fetch(this.api_url + this.id, {
+            fetch(this.api_url + this.project_id + '/' + this.id, {
                 method: 'DELETE',
             }).then(response => {
                 this.is_fetching = false
@@ -248,12 +248,13 @@ const JiraIntegration = {
                 }
             })
         },
-        async set_default() {
-            console.log('we are here')
+        async set_default(local) {
             this.is_fetching = true
             try {
-                const resp = await fetch(this.api_url + this.id, {
+                const resp = await fetch(this.api_url + this.project_id + '/' + this.id, {
                     method: 'PATCH',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({local})
                 })
                 if (resp.ok) {
                     this.$emit('update', {...this.$data, section_name: this.section_name})
@@ -280,7 +281,7 @@ const JiraIntegration = {
             passwd: '',
             project: '',
             issue_type: '',
-            description: '',
+            config: {},
             is_default: false,
             is_fetching: false,
             error: {},

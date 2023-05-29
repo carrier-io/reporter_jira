@@ -1,5 +1,6 @@
-from typing import List, Union
-from pydantic import BaseModel, AnyUrl, validator
+from typing import List, Union, Optional
+from pydantic import BaseModel, AnyUrl, validator, constr
+from urllib.parse import urlparse
 
 from ...integrations.models.pd.integration import SecretField
 
@@ -7,9 +8,9 @@ from ...integrations.models.pd.integration import SecretField
 class IntegrationModel(BaseModel):
     url: AnyUrl
     jira_version: str
-    login: str
+    login: constr(min_length=1)
     passwd: Union[SecretField, str]
-    project: str
+    project: constr(min_length=1)
     issue_type: str
 
     def check_connection(self, **kwargs) -> bool:
@@ -65,9 +66,17 @@ class SecurityTestModel(BaseModel):
     separate_epic_linkage: bool = False
     separate_epic_linkage_key: str
     use_another_jira: bool = False
-    another_jira_url: AnyUrl
+    another_jira_url: str = ''
     another_jira_login: str
     another_jira_password: str
+
+    @validator('another_jira_url')
+    def url_validator(cls, value: str):
+        if value == '':
+            return value
+        result = urlparse(value)
+        assert all([result.scheme, result.netloc]), 'invalid or missing URL scheme'
+        return value
 
 
 class PerformanceBackendTestModel(SecurityTestModel):

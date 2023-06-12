@@ -36,9 +36,9 @@ class RPC:
             integration_data['integration_settings']['url'] = integration_data['another_jira_url']
             integration_data['integration_settings']['login'] = integration_data['another_jira_login']
             integration_data['integration_settings']['passwd'] = integration_data['another_jira_password']
-            del integration_data['another_jira_url']
-            del integration_data['another_jira_login']
-            del integration_data['another_jira_password']
+            # del integration_data['another_jira_url']
+            # del integration_data['another_jira_login']
+            # del integration_data['another_jira_password']
 
         return integration_data
 
@@ -68,8 +68,8 @@ class RPC:
             integration_data['integration_settings']['url'] = integration_data['another_jira_url']
             integration_data['integration_settings']['login'] = integration_data['another_jira_login']
             integration_data['integration_settings']['passwd'] = integration_data['another_jira_password']
-            del integration_data['another_jira_url']
-            del integration_data['another_jira_login']
-            del integration_data['another_jira_password']
+            # del integration_data['another_jira_url']
+            # del integration_data['another_jira_login']
+            # del integration_data['another_jira_password']
 
         return integration_data

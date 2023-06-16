@@ -69,6 +69,7 @@ class SecurityTestModel(BaseModel):
     another_jira_url: str = ''
     another_jira_login: str
     another_jira_password: str
+    is_local: bool
 
     @validator('another_jira_url')
     def url_validator(cls, value: str):

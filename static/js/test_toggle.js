@@ -88,7 +88,7 @@ const JiraIntegration = {
         JiraPriorityMapping,
         JiraDynamicField
     },
-    props: ['instance_name', 'section', 'selected_integration', 'is_selected'],
+    props: ['instance_name', 'section', 'selected_integration', 'is_selected', 'integration_data'],
     emits: ['set_data', 'clear_data'],
     data() {
         return this.initialState()
@@ -101,18 +101,21 @@ const JiraIntegration = {
             data.dynamic_fields = data.dynamic_fields.filter(item => item.condition !== '')
             return data
         },
+        is_local() {
+            return !!(this.integration_data.project_id)
+        },
     },
     methods: {
         get_data() {
             if (this.is_selected) {
-                const {selected_integration: id} = this
-                return {id, ...this.body_data}
+                const {selected_integration: id, is_local} = this
+                return {id, is_local, ...this.body_data}
             }
         },
         set_data(data) {
-            const {id, ...rest} = data
+            const {id, is_local, ...rest} = data
             this.load(rest)
-            this.$emit('set_data', {id})
+            this.$emit('set_data', {id, is_local})
         },
         clear_data() {
             Object.assign(this.$data, this.initialState())
@@ -135,12 +138,6 @@ const JiraIntegration = {
         },
         set_error(data) {
             this.errors[data.loc[data.loc.length - 1]] = data.msg
-            // console.log(data)
-            // data.forEach(item => {
-            //     console.log('item error', item)
-            //     this.error[item.loc[item.loc.length]] = item.msg
-            // })
-
         },
         clear_errors() {
             this.errors = {}

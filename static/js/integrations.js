@@ -12,6 +12,7 @@ const JiraIntegration = {
     <ModalDialog
             v-model:name="config.name"
             v-model:is_default="is_default"
+            v-model:is_shared="config.is_shared"
             @update="update"
             @create="create"
             :display_name="display_name"

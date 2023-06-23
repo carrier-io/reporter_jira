@@ -99,10 +99,9 @@ const JiraIntegration = {
             delete data.errors
             data.fields = data.fields.filter(item => item.key !== '')
             data.dynamic_fields = data.dynamic_fields.filter(item => item.condition !== '')
+            data.project_id = this.integration_data.project_id
+            data.is_local = !!this.integration_data.project_id
             return data
-        },
-        is_local() {
-            return !!(this.integration_data.project_id)
         },
     },
     methods: {

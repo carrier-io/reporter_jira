@@ -164,7 +164,7 @@ const JiraIntegration = {
             another_jira_password: '',
             reopen_if_closed: false,
             errors: {},
-            is_adv_settins_open: false,
+            is_adv_settings_open: false,
 
         })
     },
@@ -197,12 +197,12 @@ const JiraIntegration = {
                     role="button" 
                     aria-expanded="false" 
                     aria-controls="advancedBackend"
-                    @click="is_adv_settins_open = !is_adv_settins_open"
+                    @click="is_adv_settings_open = !is_adv_settings_open"
                 >
                 <div>
                     <p class="font-h6 font-semibold text-gray-600">ADVANCED SETTINGS 
                         <button class="btn btn-nooutline-secondary p-0 pb-1 ml-1 collapsed">
-                            <i class="icon__16x16 icon-arrow-down__16" :class="is_adv_settins_open ? '' : 'rotate-270'"></i>
+                            <i class="icon__16x16 icon-arrow-down__16" :class="is_adv_settings_open ? '' : 'rotate-270'"></i>
                         </button>
                     </p>
                 </div>
